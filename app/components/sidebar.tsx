@@ -4,13 +4,11 @@ import styles from "./home.module.scss";
 
 import { IconButton } from "./button";
 import SettingsIcon from "../icons/settings.svg";
-import GithubIcon from "../icons/github.svg";
 import ChatGptIcon from "../icons/chatgpt.svg";
 import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
 import MaskIcon from "../icons/mask.svg";
 import DragIcon from "../icons/drag.svg";
-import DiscoveryIcon from "../icons/discovery.svg";
 
 import Locale from "../locales";
 
@@ -23,7 +21,6 @@ import {
   NARROW_SIDEBAR_WIDTH,
   Path,
   PLUGINS,
-  REPO_URL,
 } from "../constant";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -231,11 +228,26 @@ export function SideBar(props: { className?: string }) {
       {...props}
     >
       <SideBarHeader
-        title="NextChat"
-        subTitle="Build your own AI assistant."
+        title="BuyGPT"
+        subTitle="稳定一站式GPT服务"
         logo={<ChatGptIcon />}
         shouldNarrow={shouldNarrow}
       >
+        <div className={styles["sidebar-header-bar"]}>
+          <IconButton
+            icon={<MaskIcon />}
+            text={"登录"}
+            className={styles["sidebar-bar-button"]}
+            onClick={() => {
+              // if (config.dontShowMaskSplashScreen !== true) {
+              //   navigate(Path.NewChat, { state: { fromHome: true } });
+              // } else {
+              //   navigate(Path.Masks, { state: { fromHome: true } });
+              // }
+            }}
+            shadow
+          />
+        </div>
         <div className={styles["sidebar-header-bar"]}>
           <IconButton
             icon={<MaskIcon />}
@@ -248,13 +260,6 @@ export function SideBar(props: { className?: string }) {
                 navigate(Path.Masks, { state: { fromHome: true } });
               }
             }}
-            shadow
-          />
-          <IconButton
-            icon={<DiscoveryIcon />}
-            text={shouldNarrow ? undefined : Locale.Discovery.Name}
-            className={styles["sidebar-bar-button"]}
-            onClick={() => setShowPluginSelector(true)}
             shadow
           />
         </div>
@@ -305,15 +310,6 @@ export function SideBar(props: { className?: string }) {
                   shadow
                 />
               </Link>
-            </div>
-            <div className={styles["sidebar-action"]}>
-              <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
-                <IconButton
-                  aria={Locale.Export.MessageFromChatGPT}
-                  icon={<GithubIcon />}
-                  shadow
-                />
-              </a>
             </div>
           </>
         }
