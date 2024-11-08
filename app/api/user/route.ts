@@ -2,6 +2,8 @@ import clientPromise from "@/app/lib/mongodb";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 const InitialBalance = 2.0;
 
 export async function GET(request: NextRequest) {
