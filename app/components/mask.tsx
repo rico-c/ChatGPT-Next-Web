@@ -455,7 +455,6 @@ export function MaskPage() {
   const [searchText, setSearchText] = useState("");
   const masks = searchText.length > 0 ? searchMasks : allMasks;
 
-  // refactored already, now it accurate
   const onSearch = (text: string) => {
     setSearchText(text);
     if (text.length > 0) {
