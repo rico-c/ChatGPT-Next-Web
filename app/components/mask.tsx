@@ -548,7 +548,7 @@ export function MaskPage() {
             />
             <Select
               className={styles["mask-filter-lang"]}
-              value={filterLang ?? Locale.Settings.Lang.All}
+              value={filterLang ?? (Locale.Settings.Lang.All as any)}
               onChange={(e) => {
                 const value = e.currentTarget.value;
                 if (value === Locale.Settings.Lang.All) {
@@ -561,7 +561,7 @@ export function MaskPage() {
               <option key="all" value={Locale.Settings.Lang.All}>
                 {Locale.Settings.Lang.All}
               </option>
-              {AllLangs.map((lang) => (
+              {AllLangs.map((lang: any) => (
                 <option value={lang} key={lang}>
                   {ALL_LANG_OPTIONS[lang]}
                 </option>
