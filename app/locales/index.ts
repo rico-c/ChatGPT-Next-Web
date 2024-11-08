@@ -25,7 +25,7 @@ export type { LocaleType, PartialLocaleType } from "./cn";
 
 const localStorage = safeLocalStorage();
 
-const ALL_LANGS = {
+const ALL_LANGS: any = {
   cn,
   en,
   tw,
@@ -110,7 +110,7 @@ function getLanguage() {
   }
 }
 
-export function getLang(): Lang {
+export function getLang(): any {
   const savedLang = getItem(LANG_KEY);
 
   if (AllLangs.includes((savedLang ?? "") as Lang)) {
@@ -120,7 +120,7 @@ export function getLang(): Lang {
   return getLanguage();
 }
 
-export function changeLang(lang: Lang) {
+export function changeLang(lang: any) {
   setItem(LANG_KEY, lang);
   location.reload();
 }
