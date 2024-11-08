@@ -232,7 +232,7 @@ export function SideBar(props: { className?: string }) {
   const chatStore = useChatStore();
   const { isLoaded, isSignedIn } = useAuth();
 
-  const { userInfo } = useUserInfo();
+  const { userInfo }: any = useUserInfo();
 
   return (
     <SideBarContainer

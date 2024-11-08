@@ -87,7 +87,7 @@ export function AuthPage() {
   const navigate = useNavigate();
   const accessStore = useAccessStore();
   const [money, setMoney] = useState(20);
-  const { userInfo } = useUserInfo();
+  const { userInfo }: any = useUserInfo();
 
   const handlePay = async () => {
     // if (!money || money < 20) {
