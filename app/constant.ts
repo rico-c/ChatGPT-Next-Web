@@ -290,13 +290,7 @@ export const DEFAULT_TTS_VOICES = [
   "shimmer",
 ];
 
-const openaiModels = [
-  "gpt-4",
-  "gpt-4o",
-  "gpt-4o-mini",
-  "o1-mini",
-  "o1-preview",
-];
+const openaiModels = ["gpt-4", "gpt-4o", "gpt-4o-mini", "o1-preview"];
 
 const googleModels = [
   "gemini-1.0-pro",

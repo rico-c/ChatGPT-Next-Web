@@ -57,6 +57,7 @@ export function IconButton(props: {
         <div
           aria-label={props.text || props.title}
           className={styles["icon-button-text"]}
+          style={{ textDecoration: "none" }}
         >
           {props.text}
         </div>

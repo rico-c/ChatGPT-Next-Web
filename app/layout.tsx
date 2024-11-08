@@ -8,6 +8,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { getServerSideConfig } from "./config/server";
 import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
 const serverConfig = getServerSideConfig();
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "BuyGPT - 稳定一站式GPT服务",
@@ -46,25 +47,28 @@ export default function RootLayout({
           href="/site.webmanifest"
           crossOrigin="use-credentials"
         ></link>
+        <link rel="icon" href="/logo.svg" />
         <script src="/serviceWorkerRegister.js" defer></script>
       </head>
       <body>
-        {children}
-        {serverConfig?.isVercel && (
-          <>
-            <SpeedInsights />
-          </>
-        )}
-        {serverConfig?.gtmId && (
-          <>
-            <GoogleTagManager gtmId={serverConfig.gtmId} />
-          </>
-        )}
-        {serverConfig?.gaId && (
-          <>
-            <GoogleAnalytics gaId={serverConfig.gaId} />
-          </>
-        )}
+        <ClerkProvider>
+          {children}
+          {serverConfig?.isVercel && (
+            <>
+              <SpeedInsights />
+            </>
+          )}
+          {serverConfig?.gtmId && (
+            <>
+              <GoogleTagManager gtmId={serverConfig.gtmId} />
+            </>
+          )}
+          {serverConfig?.gaId && (
+            <>
+              <GoogleAnalytics gaId={serverConfig.gaId} />
+            </>
+          )}
+        </ClerkProvider>
       </body>
     </html>
   );

@@ -29,6 +29,16 @@ import dynamic from "next/dynamic";
 import { showConfirm, Selector } from "./ui-lib";
 import clsx from "clsx";
 
+import {
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useAuth,
+} from "@clerk/nextjs";
+import { LoginOutlined, MoneyCollectOutlined } from "@ant-design/icons";
+import { useUserInfo } from "../hooks/useUser";
+
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
   loading: () => null,
 });
@@ -220,6 +230,9 @@ export function SideBar(props: { className?: string }) {
   const navigate = useNavigate();
   const config = useAppConfig();
   const chatStore = useChatStore();
+  const { isLoaded, isSignedIn } = useAuth();
+
+  const { userInfo } = useUserInfo();
 
   return (
     <SideBarContainer
@@ -228,26 +241,16 @@ export function SideBar(props: { className?: string }) {
       {...props}
     >
       <SideBarHeader
-        title="BuyGPT"
-        subTitle="稳定一站式GPT服务"
+        title={
+          <span style={{ display: "flex", alignItems: "center" }}>
+            <img src="logo.svg" style={{ width: "50px", marginRight: "5px" }} />
+            BuyGPT
+          </span>
+        }
+        subTitle="稳定、快速、低价的一站式GPT服务"
         logo={<ChatGptIcon />}
         shouldNarrow={shouldNarrow}
       >
-        <div className={styles["sidebar-header-bar"]}>
-          <IconButton
-            icon={<MaskIcon />}
-            text={"登录"}
-            className={styles["sidebar-bar-button"]}
-            onClick={() => {
-              // if (config.dontShowMaskSplashScreen !== true) {
-              //   navigate(Path.NewChat, { state: { fromHome: true } });
-              // } else {
-              //   navigate(Path.Masks, { state: { fromHome: true } });
-              // }
-            }}
-            shadow
-          />
-        </div>
         <div className={styles["sidebar-header-bar"]}>
           <IconButton
             icon={<MaskIcon />}
@@ -289,9 +292,39 @@ export function SideBar(props: { className?: string }) {
       >
         <ChatList narrow={shouldNarrow} />
       </SideBarBody>
+      {isLoaded && isSignedIn ? (
+        <SideBarTail
+          primaryAction={
+            <div
+              style={{
+                fontSize: "13px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              余额: ￥
+              {userInfo?.balance
+                ? Number(userInfo?.balance).toFixed(2)
+                : "加载中"}
+            </div>
+          }
+          secondaryAction={
+            <div>
+              <Link to={Path.Auth}>
+                <IconButton
+                  icon={<MoneyCollectOutlined />}
+                  className={styles["sidebar-bar-button"]}
+                  text={"充值"}
+                  shadow
+                />
+              </Link>
+            </div>
+          }
+        ></SideBarTail>
+      ) : null}
       <SideBarTail
         primaryAction={
-          <>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <div className={clsx(styles["sidebar-action"], styles.mobile)}>
               <IconButton
                 icon={<DeleteIcon />}
@@ -311,7 +344,31 @@ export function SideBar(props: { className?: string }) {
                 />
               </Link>
             </div>
-          </>
+            <div className={styles["sidebar-action"]}>
+              <SignedOut>
+                <SignInButton>
+                  <IconButton
+                    icon={<LoginOutlined />}
+                    text={"登录"}
+                    className={styles["sidebar-bar-button"]}
+                    onClick={() => {}}
+                    shadow
+                  />
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "end",
+                    width: "100%",
+                  }}
+                >
+                  <UserButton />
+                </div>
+              </SignedIn>
+            </div>
+          </div>
         }
         secondaryAction={
           <IconButton
