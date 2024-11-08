@@ -1501,7 +1501,7 @@ export function Settings() {
                 changeLang(e.target.value as any);
               }}
             >
-              {AllLangs.map((lang) => (
+              {AllLangs.map((lang: any) => (
                 <option value={lang} key={lang}>
                   {ALL_LANG_OPTIONS[lang]}
                 </option>
