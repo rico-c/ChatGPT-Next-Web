@@ -16,8 +16,7 @@ export const buy_process = ({
   const callbackApi = `${document.location.origin}/api/orderreturn`;
   const orderId = `${dayjs().format("YYYYMMDDHHmm")}-${userId}-${nanoid()}`;
   const url = `money=${price}&name=${product_name}&notify_url=${callbackApi}&out_trade_no=${orderId}&param=${product_id}&pid=25770&return_url=${callback}&sitename=BuyGPT&type=${payWay}`;
-  const sign = md5(url + process.env.RAINBOW_PAY);
-
+  const sign = md5(url + "F5TtA8TKYNNnG8NZaTTGfo56TWATl3aA");
   window.open(
     `https://pay.v8jisu.cn/submit.php?${url}&sign=${sign}&sign_type=MD5`,
   );
