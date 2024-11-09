@@ -2,7 +2,7 @@ import styles from "./auth.module.scss";
 import { IconButton } from "./button";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Path } from "../constant";
+import { model_price, Path } from "../constant";
 import { useAccessStore } from "../store";
 import Locale from "../locales";
 import Logo from "../icons/logo.svg";
@@ -53,34 +53,34 @@ const dataSource = [
     key: "1",
     product: "GPT-4o",
     model: "gpt-4o",
-    input: "$2.50 / 100万 tokens",
-    output: "$10.00 / 100万 tokens",
+    input: `￥${model_price["gpt-4o"].input.toFixed(2)} / 1万 tokens`,
+    output: `￥${model_price["gpt-4o"].output.toFixed(2)} / 1万 tokens`,
     info: "适合快速处理大多数任务",
-  },
-  {
-    key: "3",
-    product: "GPT-o1",
-    model: "o1-preview",
-    input: "$15.00 / 100万 tokens",
-    output: "$60.00 / 100万 tokens",
-    info: "深度逻辑推理、价格偏高",
   },
   {
     key: "2",
     product: "GPT-4o",
     model: "gpt-4o-mini",
-    input: "$0.15 / 100万 tokens",
-    output: "$0.60 / 100万 tokens",
+    input: `￥${model_price["gpt-4o-mini"].input.toFixed(2)} / 1万 tokens`,
+    output: `￥${model_price["gpt-4o-mini"].output.toFixed(2)} / 1万 tokens`,
     info: "价格低",
   },
   {
-    key: "5",
-    product: "GPT-4",
-    model: "gpt-4",
-    input: "$30.00 / 100万 tokens",
-    output: "$60.00 / 100万 tokens",
-    info: "传统GPT4",
+    key: "3",
+    product: "GPT-o1",
+    model: "o1-preview",
+    input: `￥${model_price["o1-preview"].input.toFixed(2)} / 1万 tokens`,
+    output: `￥${model_price["o1-preview"].output.toFixed(2)} / 1万 tokens`,
+    info: "深度逻辑推理、价格偏高",
   },
+  // {
+  //   key: "5",
+  //   product: "GPT-4",
+  //   model: "gpt-4",
+  //   input: "￥21.00 / 10万 tokens",
+  //   output: "￥42.00 / 10万 tokens",
+  //   info: "传统GPT4",
+  // },
 ];
 
 export function AuthPage() {
@@ -124,7 +124,7 @@ export function AuthPage() {
         <BotIcon />
       </div>
       <div className={styles["auth-title"]}>
-        来自官方OPENAI的稳定ChatGPT服务
+        基于OpenAI官方的稳定ChatGPT服务
       </div>
       <div className={styles["auth-tips"]}>根据您的用量灵活进行充值</div>
       <div
@@ -153,9 +153,9 @@ export function AuthPage() {
       >
         <InputNumber
           prefix="￥"
-          style={{ width: "200px" }}
+          style={{ width: "150px" }}
           placeholder="充值金额，最小20元"
-          // min={20}
+          min={20}
           value={money}
           onChange={(e) => setMoney(e as number)}
         />
@@ -167,8 +167,14 @@ export function AuthPage() {
           onClick={handlePay}
         />
       </div>
+      <div className={styles["auth-title"]} style={{ marginTop: "30px" }}>
+        模型用量定价
+      </div>
+      <div className={styles["auth-tips"]}>
+        一个汉字通常对应一个或两个token，复杂的上下文可能消耗更多token
+      </div>
       <Table
-        style={{ margin: "30px 0" }}
+        style={{ margin: "20px 0" }}
         dataSource={dataSource}
         columns={columns}
         bordered
@@ -222,7 +228,7 @@ function TopBanner() {
           style={{ width: "30px", height: "30px", marginRight: "5px" }}
           className={styles["top-banner-logo"]}
         ></Logo>
-        ButGPT使用OPENAI官方接口转发，高速稳定，您可以根据用量灵活购买
+        ButGPT使用OpenAI官方接口转发，高速稳定，您可以根据用量灵活购买
         {/* <span>{Locale.Auth.TopTips}</span> */}
       </div>
     </div>

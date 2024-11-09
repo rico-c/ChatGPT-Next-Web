@@ -1,10 +1,11 @@
 import { type OpenAIListModelResponse } from "@/app/client/platforms/openai";
 import { getServerSideConfig } from "@/app/config/server";
-import { ModelProvider, OpenaiPath } from "@/app/constant";
+import { OpenaiPath } from "@/app/constant";
 import { prettyObject } from "@/app/utils/format";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "./auth";
 import { requestOpenai } from "./common";
+import { auth as clerkAuth } from "@clerk/nextjs/server";
+import clientPromise from "../lib/mongodb";
 
 const ALLOWED_PATH = new Set(Object.values(OpenaiPath));
 
@@ -47,10 +48,21 @@ export async function handle(
     );
   }
 
-  const authResult = auth(req, ModelProvider.GPT);
-  if (authResult.error) {
-    return NextResponse.json(authResult, {
+  const { userId } = await clerkAuth();
+  const client = await clientPromise;
+  const users_db = client.db("newbuygpt").collection("users");
+  const userInfo = await users_db.findOne({
+    user_id: userId,
+  });
+  if (!userId) {
+    return NextResponse.json("auth fail", {
       status: 401,
+    });
+  }
+
+  if (userInfo?.balance <= 0) {
+    return NextResponse.json("need balance", {
+      status: 666,
     });
   }
 
@@ -65,7 +77,7 @@ export async function handle(
         status: response.status,
       });
     }
-
+    console.log(1, response);
     return response;
   } catch (e) {
     console.error("[OpenAI] ", e);

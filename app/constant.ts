@@ -1,3 +1,21 @@
+const CNY_RATE = 7;
+const PRICE_RAISE = 3;
+
+export const model_price = {
+  "gpt-4o": {
+    input: (2.5 * CNY_RATE * PRICE_RAISE) / 100,
+    output: (10 * CNY_RATE * PRICE_RAISE) / 100,
+  },
+  "o1-preview": {
+    input: (15 * CNY_RATE * PRICE_RAISE) / 100,
+    output: (60 * CNY_RATE * PRICE_RAISE) / 100,
+  },
+  "gpt-4o-mini": {
+    input: (0.15 * CNY_RATE * PRICE_RAISE) / 100,
+    output: (0.6 * CNY_RATE * PRICE_RAISE) / 100,
+  },
+};
+
 export const OWNER = "BuyGPT";
 export const REPO = "ChatGPT-Next-Web";
 export const REPO_URL = `https://github.com/${OWNER}/${REPO}`;
@@ -244,14 +262,7 @@ export const DEFAULT_INPUT_TEMPLATE = `{{input}}`; // input / time / model / lan
 // Latex inline: $x^2$
 // Latex block: $$e=mc^2$$
 // `;
-export const DEFAULT_SYSTEM_TEMPLATE = `
-You are ChatGPT, a large language model trained by {{ServiceProvider}}.
-Knowledge cutoff: {{cutoff}}
-Current model: {{model}}
-Current time: {{time}}
-Latex inline: \\(x^2\\) 
-Latex block: $$e=mc^2$$
-`;
+export const DEFAULT_SYSTEM_TEMPLATE = ``;
 
 export const SUMMARIZE_MODEL = "gpt-4o-mini";
 export const GEMINI_SUMMARIZE_MODEL = "gemini-pro";
@@ -290,7 +301,7 @@ export const DEFAULT_TTS_VOICES = [
   "shimmer",
 ];
 
-const openaiModels = ["gpt-4", "gpt-4o", "gpt-4o-mini", "o1-preview"];
+const openaiModels = ["gpt-4o", "gpt-4o-mini", "o1-preview"];
 
 const googleModels = [
   "gemini-1.0-pro",
