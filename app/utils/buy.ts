@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 // @ts-expect-error
 import md5 from "md5";
 import { nanoid } from "nanoid";
-require("dotenv").config();
 
 export const buy_process = ({
   price,

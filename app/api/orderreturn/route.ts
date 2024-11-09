@@ -2,8 +2,8 @@ import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 // @ts-expect-error
 import md5 from "md5";
-import clientPromise from "@/app/lib/mongodb";
-require("dotenv").config();
+import { supabase } from "@/app/lib/supabase";
+// require("dotenv").config();
 
 export const dynamic = "force-dynamic";
 
@@ -26,37 +26,19 @@ export async function GET(request: NextRequest) {
       );
       if (resp.status === 200 && resp.data.status == "1") {
         // 成功付款
-        const client = await clientPromise;
-        const orders = client.db("newbuygpt").collection("orders");
-        const users = client.db("newbuygpt").collection("users");
         const user_id = out_trade_no.split("-")[1];
-        await orders.updateOne(
-          {
-            orderId: out_trade_no,
-          },
-          {
-            $set: {
-              ...resp.data,
-              userId: user_id,
-            },
-          },
-          {
-            upsert: true,
-          },
-        );
-        const target: any = await users.findOne({
-          user_id: user_id,
-        });
-        await users.updateOne(
-          {
-            user_id: user_id,
-          },
-          {
-            $set: {
-              balance: target.balance + Number(resp.data.money),
-            },
-          },
-        );
+        const target: any = await supabase
+          .from("users")
+          .select("*")
+          .eq("user_id", user_id)
+          .single();
+
+        const { error } = await supabase
+          .from("users")
+          .update({
+            balance: Number(resp.data.money) + target.balance,
+          })
+          .eq("user_id", user_id);
       }
     }
     return NextResponse.json({ success: true });

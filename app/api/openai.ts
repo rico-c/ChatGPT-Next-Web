@@ -5,7 +5,8 @@ import { prettyObject } from "@/app/utils/format";
 import { NextRequest, NextResponse } from "next/server";
 import { requestOpenai } from "./common";
 import { auth as clerkAuth } from "@clerk/nextjs/server";
-import clientPromise from "../lib/mongodb";
+import { supabase } from "../lib/supabase";
+// import clientPromise from "../lib/mongodb";
 
 const ALLOWED_PATH = new Set(Object.values(OpenaiPath));
 
@@ -49,11 +50,11 @@ export async function handle(
   }
 
   const { userId } = await clerkAuth();
-  const client = await clientPromise;
-  const users_db = client.db("newbuygpt").collection("users");
-  const userInfo = await users_db.findOne({
-    user_id: userId,
-  });
+  const userInfo = await supabase
+    .from("users")
+    .select("*")
+    .eq("user_id", userId)
+    .single();
   if (!userId) {
     return NextResponse.json("auth fail", {
       status: 401,

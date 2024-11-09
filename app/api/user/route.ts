@@ -1,4 +1,4 @@
-import clientPromise from "@/app/lib/mongodb";
+import { supabase } from "@/app/lib/supabase";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -14,21 +14,27 @@ export async function GET(request: NextRequest) {
       throw new Error("needing login");
     }
     let email = user?.primaryEmailAddress?.emailAddress;
-    const client = await clientPromise;
-    const users_db = client.db("newbuygpt").collection("users");
-    const resp = await users_db.findOne({
-      user_id: userId,
-    });
+    const { data: resp, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("user_id", userId)
+      .single();
+    console.log(resp);
     if (resp?.user_id) {
       return NextResponse.json(resp);
     } else {
-      let data: any = {
+      let meta_data: any = {
         user_id: userId,
         email,
         created_time: new Date().getTime(),
         balance: InitialBalance,
       };
-      await users_db.insertOne(data);
+      const { data, error } = await supabase
+        .from("users")
+        .insert(meta_data)
+        .select()
+        .single();
+      console.log(error);
       return NextResponse.json(data);
     }
   } catch (err) {
