@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
             upsert: true,
           },
         );
-        const target: any = users.findOne({
+        const target: any = await users.findOne({
           user_id: user_id,
         });
         await users.updateOne(
