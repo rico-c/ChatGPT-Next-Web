@@ -50,7 +50,7 @@ export async function handle(
   }
 
   const { userId } = await clerkAuth();
-  const userInfo = await supabase
+  const { data: userInfo, error } = await supabase
     .from("users")
     .select("*")
     .eq("user_id", userId)
