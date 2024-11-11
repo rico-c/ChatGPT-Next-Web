@@ -6,7 +6,7 @@ import { getModelProvider, isModelAvailableInServer } from "../utils/model";
 
 const serverConfig = getServerSideConfig();
 
-export async function requestOpenai(req: NextRequest) {
+export async function requestOpenai(req: NextRequest, userId?: string) {
   const controller = new AbortController();
 
   const isAzure = req.nextUrl.pathname.includes("azure/deployments");
@@ -146,7 +146,6 @@ export async function requestOpenai(req: NextRequest) {
 
   try {
     const res = await fetch(fetchUrl, fetchOptions);
-
     // Extract the OpenAI-Organization header from the response
     const openaiOrganizationHeader = res.headers.get("OpenAI-Organization");
 
@@ -175,6 +174,28 @@ export async function requestOpenai(req: NextRequest) {
     // Because Vercel uses gzip to compress the response, if we don't remove the content-encoding header
     // The browser will try to decode the response with brotli and fail
     newHeaders.delete("content-encoding");
+
+    // const copied = cloneDeep(res);
+    // const resbody = await res.json();
+
+    // console.log(111, resbody);
+    // console.log("bbbbbbbb", resbody.model, resbody.usage.total_tokens);
+
+    // // 更新用户余额
+    // await supabase
+    //   .from("users")
+    //   .select("*")
+    //   .eq("user_id", userId)
+    //   .single()
+    //   .then((target: any) => {
+    //     console.log("ttttt", target);
+    //     supabase
+    //       .from("users")
+    //       .update({
+    //         balance: target.balance,
+    //       })
+    //       .eq("user_id", userId);
+    //   });
 
     return new Response(res.body, {
       status: res.status,

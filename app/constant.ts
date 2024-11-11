@@ -1,6 +1,8 @@
 const CNY_RATE = 7;
 const PRICE_RAISE = 3;
 
+export const price_quantity = 10000;
+
 export const model_price = {
   "gpt-4o": {
     input: (2.5 * CNY_RATE * PRICE_RAISE) / 100,

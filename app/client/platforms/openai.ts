@@ -43,6 +43,7 @@ import {
   isDalle3 as _isDalle3,
 } from "@/app/utils";
 import { fetch } from "@/app/utils/stream";
+import axios from "axios";
 
 export interface OpenAIListModelResponse {
   object: string;
@@ -327,6 +328,14 @@ export class ChatGPTApi implements LLMApi {
                 runTools[index]["function"]["arguments"] += args;
               }
             }
+            if (json.usage?.total_tokens) {
+              const model_name = options.config.model;
+              console.log(123, json.usage);
+              axios.post("/api/usage", {
+                model_name,
+                usage: json.usage,
+              });
+            }
             return choices[0]?.delta?.content;
           },
           // processToolMessage, include tool_calls message and tool call results
@@ -367,6 +376,14 @@ export class ChatGPTApi implements LLMApi {
 
         const resJson = await res.json();
         const message = await this.extractMessage(resJson);
+        if (resJson.usage?.total_tokens) {
+          console.log(123, resJson.usage);
+          const model_name = options.config.model;
+          axios.post("/api/usage", {
+            model_name,
+            usage: resJson.usage,
+          });
+        }
         options.onFinish(message, res);
       }
     } catch (e) {

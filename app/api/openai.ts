@@ -1,12 +1,12 @@
 import { type OpenAIListModelResponse } from "@/app/client/platforms/openai";
 import { getServerSideConfig } from "@/app/config/server";
-import { OpenaiPath } from "@/app/constant";
+import { ModelProvider, OpenaiPath } from "@/app/constant";
 import { prettyObject } from "@/app/utils/format";
 import { NextRequest, NextResponse } from "next/server";
 import { requestOpenai } from "./common";
 import { auth as clerkAuth } from "@clerk/nextjs/server";
 import { supabase } from "../lib/supabase";
-// import clientPromise from "../lib/mongodb";
+import { auth } from "./auth";
 
 const ALLOWED_PATH = new Set(Object.values(OpenaiPath));
 
@@ -49,26 +49,32 @@ export async function handle(
     );
   }
 
+  const authResult = auth(req, ModelProvider.GPT);
+  if (authResult.error) {
+    return NextResponse.json(authResult, {});
+  }
+
   const { userId } = await clerkAuth();
   const { data: userInfo, error } = await supabase
     .from("users")
     .select("*")
     .eq("user_id", userId)
     .single();
+
   if (!userId) {
-    return NextResponse.json("auth fail", {
+    return NextResponse.json("请登录后重试", {
       status: 401,
     });
   }
 
   if (userInfo?.balance <= 0) {
-    return NextResponse.json("need balance", {
+    return NextResponse.json("余额不足请充值", {
       status: 666,
     });
   }
 
   try {
-    const response = await requestOpenai(req);
+    const response = await requestOpenai(req, userId);
 
     // list models
     if (subpath === OpenaiPath.ListModelPath && response.status === 200) {
@@ -78,10 +84,9 @@ export async function handle(
         status: response.status,
       });
     }
-    console.log(1, response);
+
     return response;
   } catch (e) {
-    console.error("[OpenAI] ", e);
     return NextResponse.json(prettyObject(e));
   }
 }
