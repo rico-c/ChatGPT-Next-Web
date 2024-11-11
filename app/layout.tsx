@@ -9,6 +9,7 @@ import { getServerSideConfig } from "./config/server";
 import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
 const serverConfig = getServerSideConfig();
 import { ClerkProvider } from "@clerk/nextjs";
+import { zhCN } from "@clerk/localizations";
 
 export const metadata: Metadata = {
   title: "BuyGPT - 稳定一站式GPT服务",
@@ -51,7 +52,7 @@ export default function RootLayout({
         <script src="/serviceWorkerRegister.js" defer></script>
       </head>
       <body>
-        <ClerkProvider>
+        <ClerkProvider localization={zhCN}>
           {children}
           {serverConfig?.isVercel && (
             <>

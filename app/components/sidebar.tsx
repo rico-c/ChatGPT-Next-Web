@@ -29,15 +29,10 @@ import dynamic from "next/dynamic";
 import { showConfirm, Selector } from "./ui-lib";
 import clsx from "clsx";
 
-import {
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useAuth,
-} from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/nextjs";
 import { LoginOutlined, MoneyCollectOutlined } from "@ant-design/icons";
 import { useUserInfo } from "../hooks/useUser";
+import { useRouter } from "next/navigation";
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
   loading: () => null,
@@ -234,6 +229,8 @@ export function SideBar(props: { className?: string }) {
 
   const { userInfo }: any = useUserInfo();
 
+  const router = useRouter();
+
   return (
     <SideBarContainer
       onDragStart={onDragStart}
@@ -346,15 +343,17 @@ export function SideBar(props: { className?: string }) {
             </div>
             <div className={styles["sidebar-action"]}>
               <SignedOut>
-                <SignInButton>
-                  <IconButton
-                    icon={<LoginOutlined />}
-                    text={"登录"}
-                    className={styles["sidebar-bar-button"]}
-                    onClick={() => {}}
-                    shadow
-                  />
-                </SignInButton>
+                {/* <SignInButton> */}
+                <IconButton
+                  icon={<LoginOutlined />}
+                  text={"登录"}
+                  className={styles["sidebar-bar-button"]}
+                  onClick={() => {
+                    router.push("/sign-in");
+                  }}
+                  shadow
+                />
+                {/* </SignInButton> */}
               </SignedOut>
               <SignedIn>
                 <div

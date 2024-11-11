@@ -1396,6 +1396,13 @@
     "@clerk/types" "4.30.0"
     tslib "2.4.1"
 
+"@clerk/localizations@^3.6.1":
+  version "3.6.1"
+  resolved "https://registry.npmmirror.com/@clerk/localizations/-/localizations-3.6.1.tgz#b55e035577a2c7a1e7c10f4830b8037d55ba4d01"
+  integrity sha512-jA44eU1JIniaQIqRIe4vrfGi/5qLbNgLExrBY5nzgIXmAPCnU4v6bX80RO6PiCowz5jbONmI9q6+/+JjALe7lA==
+  dependencies:
+    "@clerk/types" "4.32.0"
+
 "@clerk/nextjs@^6.2.1":
   version "6.2.1"
   resolved "https://registry.npmmirror.com/@clerk/nextjs/-/nextjs-6.2.1.tgz"
@@ -1425,6 +1432,13 @@
   version "4.30.0"
   resolved "https://registry.npmmirror.com/@clerk/types/-/types-4.30.0.tgz"
   integrity sha512-/RLWXsz4yp9uFvJhDZDyZGRDyx3VdHRyPYQS7onhGVTY846X6iCzJVlMFzdpzW3PITxMBgCI9MjgKdH50vBPBA==
+  dependencies:
+    csstype "3.1.1"
+
+"@clerk/types@4.32.0":
+  version "4.32.0"
+  resolved "https://registry.npmmirror.com/@clerk/types/-/types-4.32.0.tgz#8180470bfe18063a23eef2e26dd4a41d446d4beb"
+  integrity sha512-6oqRJsQE8GIThVyPBAO0kJP0pZJ1c11Hz0qabDk9lStoxjHy7fRIcIm/JX5xlA6rjilWBMEgJr4C0a36mJvVXg==
   dependencies:
     csstype "3.1.1"
 

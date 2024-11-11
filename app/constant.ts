@@ -1,5 +1,5 @@
 const CNY_RATE = 7;
-const PRICE_RAISE = 3;
+const PRICE_RAISE = 2;
 
 export const price_quantity = 10000;
 

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
+    "@clerk/localizations": "^3.6.1",
     "@clerk/nextjs": "^6.2.1",
     "@fortaine/fetch-event-source": "^3.0.6",
     "@hello-pangea/dnd": "^16.5.0",

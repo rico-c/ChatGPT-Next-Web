@@ -19,7 +19,6 @@ import SpeakIcon from "../icons/speak.svg";
 import SpeakStopIcon from "../icons/speak-stop.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 import LoadingButtonIcon from "../icons/loading.svg";
-import MaskIcon from "../icons/mask.svg";
 import MaxIcon from "../icons/max.svg";
 import MinIcon from "../icons/min.svg";
 import ResetIcon from "../icons/reload.svg";
@@ -365,30 +364,34 @@ export function ChatAction(props: {
   const iconRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState({
-    full: 16,
+    full: 40,
     icon: 16,
   });
 
-  function updateWidth() {
-    if (!iconRef.current || !textRef.current) return;
-    const getWidth = (dom: HTMLDivElement) => dom.getBoundingClientRect().width;
-    const textWidth = getWidth(textRef.current);
-    const iconWidth = getWidth(iconRef.current);
-    setWidth({
-      full: textWidth + iconWidth,
-      icon: iconWidth,
-    });
-  }
+  // useLayoutEffect(() => {
+  //   updateWidth();
+  // }, [textRef]);
+
+  // function updateWidth() {
+  //   if (!iconRef.current || !textRef.current) return;
+  //   const getWidth = (dom: HTMLDivElement) => dom.getBoundingClientRect().width;
+  //   const textWidth = getWidth(textRef.current);
+  //   const iconWidth = getWidth(iconRef.current);
+  //   setWidth({
+  //     full: textWidth + iconWidth,
+  //     icon: iconWidth,
+  //   });
+  // }
 
   return (
     <div
       className={clsx(styles["chat-input-action"], "clickable")}
       onClick={() => {
         props.onClick();
-        setTimeout(updateWidth, 1);
+        // setTimeout(updateWidth, 1);
       }}
-      onMouseEnter={updateWidth}
-      onTouchStart={updateWidth}
+      // onMouseEnter={updateWidth}
+      // onTouchStart={updateWidth}
       style={
         {
           "--icon-width": `${width.icon}px`,
@@ -592,14 +595,14 @@ export function ChatActions(props: {
         text={Locale.Chat.InputActions.Prompt}
         icon={<PromptIcon />}
       /> */}
-
+      {/* 
       <ChatAction
         onClick={() => {
           navigate(Path.Masks);
         }}
         text={Locale.Chat.InputActions.Masks}
         icon={<MaskIcon />}
-      />
+      /> */}
 
       {/* <ChatAction
         text={Locale.Chat.InputActions.Clear}

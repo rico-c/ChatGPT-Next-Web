@@ -55,7 +55,7 @@ const dataSource = [
     model: "gpt-4o",
     input: `￥${model_price["gpt-4o"].input.toFixed(2)} / 1万 tokens`,
     output: `￥${model_price["gpt-4o"].output.toFixed(2)} / 1万 tokens`,
-    info: "适合快速处理大多数任务",
+    info: "适合处理大多数任务，价格适中",
   },
   {
     key: "2",
@@ -71,7 +71,7 @@ const dataSource = [
     model: "o1-preview",
     input: `￥${model_price["o1-preview"].input.toFixed(2)} / 1万 tokens`,
     output: `￥${model_price["o1-preview"].output.toFixed(2)} / 1万 tokens`,
-    info: "深度逻辑推理、价格偏高",
+    info: "擅长深度逻辑推理，价格偏高",
   },
   // {
   //   key: "5",
@@ -111,7 +111,7 @@ export function AuthPage() {
   }, []);
 
   return (
-    <div className={styles["auth-page"]}>
+    <div className={styles["auth-page"]} style={{ overflow: "scroll" }}>
       <TopBanner></TopBanner>
       <div className={styles["auth-header"]}>
         <IconButton
@@ -123,7 +123,7 @@ export function AuthPage() {
       <div className={clsx("no-dark", styles["auth-logo"])}>
         <BotIcon />
       </div>
-      <div className={styles["auth-title"]}>
+      <div className={styles["auth-title"]} style={{ padding: "0 20px" }}>
         基于OpenAI官方的稳定ChatGPT服务
       </div>
       <div className={styles["auth-tips"]}>根据您的用量灵活进行充值</div>
@@ -170,11 +170,11 @@ export function AuthPage() {
       <div className={styles["auth-title"]} style={{ marginTop: "30px" }}>
         模型用量定价
       </div>
-      <div className={styles["auth-tips"]}>
+      <div className={styles["auth-tips"]} style={{ padding: "0 20px" }}>
         一个汉字通常对应一个或两个token，复杂的上下文可能消耗更多token
       </div>
       <Table
-        style={{ margin: "20px 0" }}
+        style={{ margin: "20px 0", padding: "0 20px" }}
         dataSource={dataSource}
         columns={columns}
         bordered
