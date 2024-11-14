@@ -69,7 +69,7 @@ export async function handle(
 
   if (userInfo?.balance <= 0) {
     return NextResponse.json("余额不足请充值", {
-      status: 666,
+      status: 598,
     });
   }
 
