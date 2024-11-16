@@ -165,7 +165,7 @@ export function AuthPage() {
           style={{ width: "120px", height: "46px", backgroundColor: "#27c24c" }}
           text={"微信充值"}
           type="primary"
-          onClick={() => handlePay("wechat")}
+          onClick={() => handlePay("wxpay")}
         />
         <IconButton
           icon={<AlipayOutlined />}
