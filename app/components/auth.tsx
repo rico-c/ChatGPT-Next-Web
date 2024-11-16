@@ -14,7 +14,7 @@ import { safeLocalStorage } from "@/app/utils";
 
 import clsx from "clsx";
 import { InputNumber, Table } from "antd";
-import { AlipayOutlined } from "@ant-design/icons";
+import { AlipayOutlined, WechatOutlined } from "@ant-design/icons";
 import { useUserInfo } from "../hooks/useUser";
 import { buy_process } from "../utils/buy";
 
@@ -89,7 +89,7 @@ export function AuthPage() {
   const [money, setMoney] = useState(20);
   const { userInfo }: any = useUserInfo();
 
-  const handlePay = async () => {
+  const handlePay = async (way: string) => {
     // if (!money || money < 20) {
     //   alert("充值金额不能小于20元");
     //   return;
@@ -98,7 +98,7 @@ export function AuthPage() {
       price: money,
       product_name: "buygpt",
       product_id: "buygpt",
-      payWay: "alipay",
+      payWay: way,
       userId: userInfo?.user_id,
     });
   };
@@ -149,22 +149,30 @@ export function AuthPage() {
           width: "100%",
           flexDirection: "row",
           gap: "10px",
+          height: "46px",
         }}
       >
         <InputNumber
           prefix="￥"
-          style={{ width: "150px" }}
+          style={{ width: "150px", height: "46px" }}
           placeholder="充值金额，最小20元"
           min={20}
           value={money}
           onChange={(e) => setMoney(e as number)}
         />
         <IconButton
-          icon={<AlipayOutlined />}
-          style={{ width: "150px", backgroundColor: "#1678ff" }}
-          text={"充值余额"}
+          icon={<WechatOutlined />}
+          style={{ width: "120px", height: "46px", backgroundColor: "#27c24c" }}
+          text={"微信充值"}
           type="primary"
-          onClick={handlePay}
+          onClick={() => handlePay("wechat")}
+        />
+        <IconButton
+          icon={<AlipayOutlined />}
+          style={{ width: "120px", height: "46px", backgroundColor: "#1678ff" }}
+          text={"支付宝充值"}
+          type="primary"
+          onClick={() => handlePay("alipay")}
         />
       </div>
       <div className={styles["auth-title"]} style={{ marginTop: "30px" }}>
