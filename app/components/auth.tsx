@@ -14,7 +14,7 @@ import { safeLocalStorage } from "@/app/utils";
 
 import clsx from "clsx";
 import { InputNumber, Table } from "antd";
-import { AlipayOutlined, WechatOutlined } from "@ant-design/icons";
+import { AlipayOutlined } from "@ant-design/icons";
 import { useUserInfo } from "../hooks/useUser";
 import { buy_process } from "../utils/buy";
 
@@ -160,13 +160,13 @@ export function AuthPage() {
           value={money}
           onChange={(e) => setMoney(e as number)}
         />
-        <IconButton
+        {/* <IconButton
           icon={<WechatOutlined />}
           style={{ width: "120px", height: "46px", backgroundColor: "#27c24c" }}
           text={"微信充值"}
           type="primary"
           onClick={() => handlePay("wxpay")}
-        />
+        /> */}
         <IconButton
           icon={<AlipayOutlined />}
           style={{ width: "120px", height: "46px", backgroundColor: "#1678ff" }}
