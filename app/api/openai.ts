@@ -72,7 +72,6 @@ export async function handle(
       status: 598,
     });
   }
-
   try {
     const response = await requestOpenai(req, userId);
 
