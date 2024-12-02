@@ -27,7 +27,6 @@ export async function GET(request: NextRequest) {
       if (resp.status === 200 && resp.data.status == "1") {
         // 成功付款
         const user_id = out_trade_no.split("-")[1];
-        console.log(user_id);
         const target: any = await supabase
           .from("users")
           .select("*")
